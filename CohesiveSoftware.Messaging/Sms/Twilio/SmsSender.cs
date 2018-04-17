@@ -15,6 +15,11 @@ namespace CohesiveSoftware.Messaging.Sms.Twilio
             _twilioSid = twilioSid;
             _twilioAuthToken = twilioAuthToken;
         }
+        public TwilioSmsSender(TwilioHelper helper)
+        {
+            _twilioSid = helper.Sid;
+            _twilioAuthToken = helper.AuthToken;
+        }
 
         public void Send(string from, string to, string message)
         {
