@@ -32,13 +32,12 @@ namespace CohesiveSoftware.Messaging.Email.Azure.Sendgrid
             if (message.BCC.Count > 0)
                 msg.AddBccs(message.BCC.Select(s => new EmailAddress(s)).ToList());
 
-            // TODO: FIX THIS!!!
-            //if (message.Attachments.Count > 0)
-            //    msg.AddAttachments(message.Attachments.Select(s => new Attachment
-            //    {
-            //        Filename = s,
-            //        Content = Convert.ToBase64String(System.IO.File.ReadAllBytes(s))
-            //    }).ToList());
+            if (message.Attachments.Count > 0)
+                msg.AddAttachments(message.Attachments.Select(s => new Attachment
+                {
+                    Filename = s,
+                    Content = Convert.ToBase64String(System.IO.File.ReadAllBytes(s))
+                }).ToList());
 
             // Send
             var client = new SendGridClient(this.settings.ApiKey);
