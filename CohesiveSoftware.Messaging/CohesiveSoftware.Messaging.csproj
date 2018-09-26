@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CohesiveSoftware.Data" Version="2018.1.23.2" />
-    <PackageReference Include="Sendgrid" Version="9.9.0" />
+    <PackageReference Include="CohesiveSoftware.Data" Version="2018.9.7.1" />
+    <PackageReference Include="Sendgrid" Version="9.10.0" />
     <PackageReference Include="Twilio.AspNet.Core" Version="5.8.3" />
   </ItemGroup>
 
