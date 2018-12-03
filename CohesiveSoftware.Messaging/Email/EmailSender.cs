@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CohesiveSoftware.Messaging.Email
 {
-    public class EmailSender
+    public static class EmailSender
     {
         public static Task Send(string apiKey, string subject, string message, string toEmail, string fromEmail, IEnumerable<IFormFile> attachments = null)
         {

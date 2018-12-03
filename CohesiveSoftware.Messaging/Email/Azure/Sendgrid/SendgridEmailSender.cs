@@ -1,10 +1,8 @@
 ﻿using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CohesiveSoftware.Messaging.Email.Azure.Sendgrid
@@ -33,17 +31,20 @@ namespace CohesiveSoftware.Messaging.Email.Azure.Sendgrid
             if (message.BCC.Count > 0)
                 msg.AddBccs(message.BCC.Select(s => new EmailAddress(s)).ToList());
 
-            foreach(var attachment in message.Attachments.Where(x => x.Length > 0))
+            if (message.Attachments != null && message.Attachments.Any())
             {
-                using (var ms = new MemoryStream())
+                foreach (var attachment in message.Attachments.Where(x => x != null && x.Length > 0))
                 {
-                    attachment.CopyTo(ms);
-                    var fileBytes = ms.ToArray();
-                    msg.AddAttachment(new Attachment
+                    using (var ms = new MemoryStream())
                     {
-                        Filename = attachment.FileName,
-                        Content = Convert.ToBase64String(fileBytes)
-                    });
+                        attachment.CopyTo(ms);
+                        var fileBytes = ms.ToArray();
+                        msg.AddAttachment(new Attachment
+                        {
+                            Filename = attachment.FileName,
+                            Content = Convert.ToBase64String(fileBytes)
+                        });
+                    }
                 }
             }
 
