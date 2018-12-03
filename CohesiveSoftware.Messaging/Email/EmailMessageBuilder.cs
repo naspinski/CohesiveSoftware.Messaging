@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 // https://tahirnaushad.com/2017/08/20/sending-emails-via-azure-in-net-core/
 // https://github.com/TahirNaushad/Fiver.Azure.Email/blob/master/Fiver.Azure.Email/Message/EmailMessageBuilder.cs
@@ -18,7 +19,7 @@ namespace CohesiveSoftware.Messaging.Email
         private List<string> to = new List<string>();
         private List<string> cc = new List<string>();
         private List<string> bcc = new List<string>();
-        private List<string> attachments = new List<string>();
+        private List<IFormFile> attachments = new List<IFormFile>();
 
         private EmailMessageBuilder() { }
 
@@ -63,7 +64,7 @@ namespace CohesiveSoftware.Messaging.Email
             return this;
         }
 
-        public IEmailMessageBuilder AddAttachment(string attachment)
+        public IEmailMessageBuilder AddAttachment(IFormFile attachment)
         {
             this.attachments.Add(attachment);
             return this;
@@ -109,7 +110,7 @@ namespace CohesiveSoftware.Messaging.Email
         IEmailMessageBuilder AddTo(string to);
         IEmailMessageBuilder AddCC(string cc);
         IEmailMessageBuilder AddBCC(string bcc);
-        IEmailMessageBuilder AddAttachment(string attachment);
+        IEmailMessageBuilder AddAttachment(IFormFile attachment);
         EmailMessage Build();
     }
 

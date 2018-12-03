@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,10 +9,10 @@ namespace CohesiveSoftware.Messaging.Email
         private readonly List<string> to;
         private readonly List<string> cc;
         private readonly List<string> bcc;
-        private readonly List<string> attachments;
+        private readonly List<IFormFile> attachments;
 
         public EmailMessage(string subject, string from, string body, List<string> to,
-            List<string> cc, List<string> bcc, List<string> attachments)
+            List<string> cc, List<string> bcc, List<IFormFile> attachments)
         {
             if (string.IsNullOrEmpty(subject))
                 throw new ArgumentException("Subject must be set");
@@ -40,6 +41,6 @@ namespace CohesiveSoftware.Messaging.Email
         public IReadOnlyList<string> To => to;
         public IReadOnlyList<string> CC => cc;
         public IReadOnlyList<string> BCC => bcc;
-        public IReadOnlyList<string> Attachments => attachments;
+        public IReadOnlyList<IFormFile> Attachments => attachments;
     }
 }

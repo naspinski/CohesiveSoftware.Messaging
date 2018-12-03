@@ -2,6 +2,7 @@
 using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,12 +33,19 @@ namespace CohesiveSoftware.Messaging.Email.Azure.Sendgrid
             if (message.BCC.Count > 0)
                 msg.AddBccs(message.BCC.Select(s => new EmailAddress(s)).ToList());
 
-            if (message.Attachments.Count > 0)
-                msg.AddAttachments(message.Attachments.Select(s => new Attachment
+            foreach(var attachment in message.Attachments.Where(x => x.Length > 0))
+            {
+                using (var ms = new MemoryStream())
                 {
-                    Filename = s,
-                    Content = Convert.ToBase64String(System.IO.File.ReadAllBytes(s))
-                }).ToList());
+                    attachment.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
+                    msg.AddAttachment(new Attachment
+                    {
+                        Filename = attachment.FileName,
+                        Content = Convert.ToBase64String(fileBytes)
+                    });
+                }
+            }
 
             // Send
             var client = new SendGridClient(this.settings.ApiKey);
