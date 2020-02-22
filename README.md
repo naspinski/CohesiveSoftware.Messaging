@@ -1,4 +1,4 @@
-# CohesiveSoftware.Messaging
+# CohesiveSoftware.Messaging [DEPRECATED]
 
 Extensible C# Messaging Library
 
